@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vuln-platform
+  labels:
+    app.kubernetes.io/name: vuln-platform
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vuln-platform
+  namespace: vuln-platform
+  labels:
+    app.kubernetes.io/name: vuln-platform
+# No cluster-level RBAC bindings are needed by this ServiceAccount —
+# the application talks to Postgres/Redis and to managed RHEL hosts
+# over SSH, not to the Kubernetes API. If a future slice adds
+# k8s-native features (e.g. discovering OCP nodes as scan targets),
+# grant the narrowest possible Role, not ClusterRole, and prefer
+# read-only verbs.
